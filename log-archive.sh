@@ -76,4 +76,10 @@ FILENAME="logs_archive_$(echo $TIMESTAMPS | awk '{ print $1 }')_$(echo $TIMESTAM
 FILEDIR="${FILEDIR#/}"
 #Compress and change the parent directory to the root directory so we use relative paths and we avoid problems of absolut pathing being compressed at the tar
 tar -czf "$LOGDIRECTORY/$FILENAME.tar.gz" -C / "$FILEDIR"
-
+if [[ "$?" == 0 ]]; then
+	echo "The log $FILENAME was created succesfully"
+	exit 0
+else
+	echo "ERROR: Failed to create the archive" >&2
+	exit 1
+fi
